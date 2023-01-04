@@ -1,0 +1,122 @@
+<!-- 3-valued logic -->
+
+<gxl>
+ <graph ID='boolean' edgemode='directed'>
+   <!-- logic values -->
+   <node ID='T'/>
+   <node ID='M1'/>
+   <node ID='M2'/>
+   <node ID='M3'/>
+   <node ID='M4'/>
+   <node ID='M5'/>
+   <node ID='M6'/>
+   <node ID='M7'/>
+   <node ID='M8'/>
+   <node ID='M9'/>
+   <node ID='M10'/>
+   <node ID='M11'/>
+   <node ID='M12'/>
+   <node ID='M13'/>
+   <node ID='M14'/>
+   <node ID='F'/>
+
+   <!-- logic order -->
+   <edge from='T' to='M14'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M14' to='M13'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M13' to='M12'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M12' to='M11'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M11' to='M10'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M10' to='M9'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M9' to='M8'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M8' to='M7'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M7' to='M6'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M6' to='M5'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M5' to='M4'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M4' to='M3'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M3' to='M2'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M2' to='M1'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='M1' to='F'>
+    <type value='above'/>
+   </edge>
+ 
+   <!-- negation order -->
+   <edge from='T' to='F'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='F' to='T'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M1' to='M14'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M2' to='M13'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M3' to='M12'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M4' to='M11'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M5' to='M10'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M6' to='M9'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='M7' to='M8'>
+     <type value='neg'/>
+   </edge>
+
+ </graph>
+</gxl>

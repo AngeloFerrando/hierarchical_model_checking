@@ -1,0 +1,87 @@
+<project name="YasmTesting" default="yasm.test" basedir=".">
+
+<!-- properties are defined in build.properties -->
+	
+  <dirname property="imported.basedir" file="${ant.file.YasmTesting}"/>
+  <property file="${imported.basedir}/testing.properties" />
+	
+	<!-- define our classpath as basedir + everything in lib/buildlib -->
+  <path id="xbel2.classpath">
+    <pathelement location="${build}"/>
+    <pathelement location="."/>
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+	
+	<!-- for debug purposes -->
+	<target name="echo">
+		<echoproperties></echoproperties>
+		<echo message="xbel2.code.dir=${xbel2.code.dir}" />
+		<echo message="lib.dir=${lib.dir}" />
+		<echo message="reports.dir=${reports.dir}" />
+		<echo message="yasm.reports.dir=${yasm.reports.dir}" />
+		<echo message="tmp.dir=${tmp.dir}" />
+		<echo message="test.suites.dir=${test.suites.dir}" />
+	</target>
+	
+	<target name="yasm.test.init">
+		<tstamp>
+			<format property="report.date" pattern="yyyyMMdd" />
+		</tstamp>
+		<echo message="time stamp is ${report.date}" />
+		<!-- mkdir silently does nothing if dir already exists -->
+		<mkdir dir="${reports.dir}" />
+		<mkdir dir="${yasm.reports.dir}" />
+		<mkdir dir="${yasm.reports.dir}/${report.date}" />
+		<mkdir dir="${tmp.dir}/${report.date}" />
+	</target>	
+
+	<!-- truely testing everything. Dynamically discover new directories
+		 under the location test.suites.dir -->
+	<target name="yasm.test.compile">
+
+		<javac 
+			target="1.4"
+			source="1.4"
+			classpathref="xbel.classpath" 
+			srcdir="junit"/>
+	<!-- includes="${test.suites.dir}/**/*TestSuite.java" /> -->
+
+	</target>
+
+	<target name="yasm.test" depends="yasm.test.init,yasm.test.compile">
+
+		<junit printsummary="true" showoutput="true" fork="true" dir="${basedir}" timeout="1800000" >
+			<jvmarg value="-DROOT=${basedir}"/>
+			<jvmarg value="-ea" />
+			<jvmarg value="-Djava.library.path=${basedir}/lib"/>
+			<jvmarg value="-Xmx128m" />
+
+			<formatter type="xml" />
+
+			<batchtest todir="${tmp.dir}/${report.date}">
+				<fileset dir="${basedir}">
+					<include name="${test.suites.dir}/**/*TestSuite.class" />
+				</fileset>
+			</batchtest>
+
+			<classpath>
+			    <pathelement path="${java.class.path}"/>
+				<path refid="xbel2.classpath" />
+			</classpath>
+
+		</junit>
+
+		<!-- foramating the result in html -->
+		<junitreport todir="${tmp.dir}/${report.date}">
+		  <fileset dir="${tmp.dir}/${report.date}">
+		    <include name="**/*.xml" />
+		  </fileset>
+		  <report format="frames" 
+			  todir="${yasm.reports.dir}/${report.date}"/>
+		</junitreport>
+
+	</target>
+
+</project>

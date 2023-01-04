@@ -1,0 +1,33 @@
+<!-- 4-valued logic -->
+
+<gxl>
+ <graph ID='boolean' edgemode='directed'>
+   <!-- logic values -->
+   <node ID='T'/>
+   <node ID='MT'/>
+   <node ID='MF'/>
+   <node ID='F'/>
+
+   <!-- logic order -->
+   <edge from='T' to='MT'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='MT' to='MF'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='MF' to='F'>
+    <type value='above'/>
+   </edge>
+ 
+   <!-- negation order -->
+   <edge from='T' to='F'>
+     <type value='neg'/>
+   </edge>
+
+   <edge from='MF' to='MT'>
+     <type value='neg'/>
+   </edge>
+ </graph>
+</gxl>

@@ -1,0 +1,61 @@
+To create a working environment on Windows follow the following steps
+
+1) Get JDK 1.3 (or whatever the latest version happens to be) from 
+	http://java.sun.com
+2) Get 'jikes' from 
+	http://oss.software.ibm.com/developerworks/opensource/jikes/
+3) Get 'puTTY' (a Windows SSH client) from
+	http://www.chiark.greenend.org.uk/~sgtatham/putty/
+4) Get 'WinCVS' (a Windows CVS client) from
+	http://www.wincvs.org/
+
+5) Follow the instructions on 
+	http://ats.nist.gov/stepmod/cvswin.html
+   to setup CVS/SSH combination
+   The CVSROOT is /w/10/share/cvsroot, you should know your login name
+   The name of the module is 'xbel'
+
+Well, after getting all of the software and setting up CVS you should 
+be able to check out 'xbel' and get the source.
+
+*Building Support Libraries (buildLib.jar)
+
+Before you are able to build the source you need to build the support libraries that we are using first. On the Unix systems this is done automatically by using 'bin/buildlib.sh' script in xbel root directory. However, if you are on Windows and don't have CygWin (http://sources.redhat.com/cygwin) installed you'll have to do that by hand. The idea is simple, all jar files that we are using are placed in 'lib/buildLib' directory, and the script combines them all into one big 'lib/buildLib.jar' jar file. Thus, to do this by hand create a temporary directory, unjar all the jar files from 'lib/buildLib', and then create a new jar file out of that. If this sounds confusing take a look at 'bin/buildlib.sh'
+
+
+*Setting up environment
+ a) Make sure your PATH variable contains directories where java and jikes 
+    are located.
+ b) Set your CLASSPATH to contain 
+     i) JDK_ROOT\jre\lib\rt.jar (JDK_ROOT stands for directory where JDK is)
+    ii) XBEL_ROOT -- directory where xbel is located
+   iii) XBEL_ROOT\lib\buildLib.jar
+
+*Compiling
+
+As of now we don't have a good building procedure. There are no Makefiles, 
+but there is a UNIX script that compiles everything at once. Hopefully, 
+we'll start using ANT soon.
+
+The compile procedure is as following:
+  cd XBEL_ROOT\edu\toronto\cs\xkripke
+  jikes +E +D -g *.java
+
+It should not give any error messages and everything should be compiled.
+
+To run the model checker type:
+ java edu.toronto.cs.MDDModelChecker model
+where 'model' is the name of the file containing the model. Notice that 
+the model file has an absolute reference to the logic file and this reference
+will most surely be wrong on your windows machine, and therefore you'll 
+have to change it. 
+
+On a UNIX machine you can simply use 'xcheck' to run the model checker, 
+one can envision creating a similar script for windows 
+(take a look at bin/xchek' for details)
+
+arie 
+
+
+
+

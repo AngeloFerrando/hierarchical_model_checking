@@ -1,0 +1,10 @@
+bool a;
+
+if (unknown) goto l1 else goto l2 fi
+
+l1: a := H(a, !a)
+goto l3
+l2: a := H(a, !a)
+goto l3
+
+l3: goto l3

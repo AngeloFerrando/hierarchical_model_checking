@@ -1,0 +1,15 @@
+Use ant for:
+
+To run ant you need to specify the location of the build.xml file, so
+you type somehting like:
+ant -f $ROOT/build.xml
+
+Right now ant has the following targets:
+1) compile (default target) - compiles all that needs to be compiled
+2) clean - removes all the .class files except for the ones that
+belong to the CTL parser
+3) rebuild = clean + compile
+4) buildlib - builds the giant .jar file of all the libraries we use
+5) dist - builds a .jar file which contains all the libraries we use
+and our own classes
+6) realclean -- removes all ANTLR generated files + clean

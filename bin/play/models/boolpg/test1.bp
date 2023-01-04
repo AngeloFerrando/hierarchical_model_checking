@@ -1,0 +1,39 @@
+bool a;
+bool b;
+bool c = true;
+
+(a := true) choice (a := false)
+
+
+a := true;
+b := false;
+
+if (a & b) then 
+	a := true;
+	b := unkown
+else
+	a := false;
+	b := true
+fi
+
+if (unknown) then
+	goto thenBranch 
+else
+	goto elseBranch
+fi
+
+thenBranch:
+	a := true;
+	goto nextLabel
+elseBranch:
+	b := true
+	
+nextLabel:
+	a := b & c;
+	b := false
+
+
+(assume (a) ; b := true) choice (assume(!a) ; b := false)
+
+(b := true) nondet (b := false)
+

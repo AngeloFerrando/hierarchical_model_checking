@@ -1,0 +1,400 @@
+
+YASM is a software model-checker which implements the standard
+abstraction-refinement process for program analysis. This quick-start
+helps you to get started with YASM.
+
+(let "PATH2YASM" be the path to YASM directory)
+
+* How to compile YASM
+
+We use Java Ant as the build tool, which is like the "Make" tool you
+have used for compiling C files. The configuration file for Ant,
+working as the Makefile for Make, is XML-based. For YASM, the
+configuration file is "build.xml" located at the directory of
+"PATH2YASM"
+
+To build YASM, go to the directory "PATH2YASM", and type
+
+ant -f build.xml
+
+The compiled Java classes are put into PATH2YASM/build, and the script
+to run Yasm is at PATH2YASM/bin
+
+In general, you can compile by running 
+  ant -f PATH2YASM/build.xml 
+from any directory.
+
+Yasm uses ANTLR (www.antlr.org) as our parser generator, which means
+ant needs to know where to find it. Usually, placing antlr.jar from
+PATH2YASM/lib/buildLib/antlr.jar to ant's lib directory will do the
+trick.
+
+
+
+* How to generate documentation for YASM source code
+
+Document generation is defined as a task in "build.xml".
+
+To generate the documents, go to the directory "PATH4YASM", and
+type
+
+ant doc
+
+The generated documents can be found at the directory
+"PATH2YASM/doc/javadoc". You may start from the "index.html" file.
+
+
+
+* How to set up environment for YASM
+
+YASM must be run under Bash shell. 
+
+To start Bash shell, simply type "bash" and enter.
+
+Now go to the directory "PATH2YASM", and type
+
+source ./bin/env.sh `pwd`   
+
+(note: pwd is surrounded by backquotes)
+
+You are now ready to run YASM.
+
+This script will add PATH2YASM/bin to your path and setup JAVA_HOME to
+point to location of the jdk. Modify it as needed.
+
+Alternatively, you can simply run PATH2YASM/bin/yasm which will
+source env.sh automatically as needed.
+
+
+* How to run YASM
+
+The typical way to run YASM is 
+
+yasm -p '<CTL-property>' <C-program>
+
+(note: <CTL-property> is surrounded by single quotes)
+
+When YASM terminates, it will report whether the property is "true"
+or "false" in the C program.
+
+
+** Examples of running YASM
+
+Consider the C program "test.c" as follows:
+
+//////////////////////////////////////////////////////
+
+int main()
+{
+
+  int y;
+
+  y = 10;
+
+  y = y-1;
+  
+  if (y>5)
+  {
+    ERROR:
+  }
+
+END:
+}
+
+///////////////////////////////////////////////////
+
+*** If you want to check if the program terminate,
+you can run YASM with 
+
+yasm -p 'EF pc = END' test.c 2>/dev/null
+
+where "pc" refers to "program counter". YASM
+can check any statement which is labeled in the
+program.
+
+The output will look like the following:
+
+////////////////////////////////////////////////////
+
+
+bash-2.05a$ yasm -p 'EF pc=END'  test.c 2>/dev/null
+ms: 64m, mx: 64m
+Compiling C program: test.c
+
+
+***** Model-Checking ***** 
+Check EU: iteration: 1
+Check EU: iteration: 2
+Check EU: iteration: 3
+Check EU: iteration: 4
+Check EU: iteration: 5
+Check EU: iteration: 6
+Check EU: iteration: 7
+Done in: 0.0090s
+
+******* SEE RESULT BELOW ***********
+The property is: true
+********** LOOK UP  ^ **********
+Predicates used: 
+[]
+we are done
+Done in 0.995s
+************************************
+STATISTICS
+Overall time: 0.699s
+Parsing time: 0.217s
+Refine time: 0.023s
+Model compilation: 0.12s
+Model-Checking time: 0.0090s
+New predicates time: null
+PredicateAbstraction time: null
+
+QUERY: 0.0020s
+Predicates used: 
+[]
+
+////////////////////////////////////////////////////
+
+The model checking result is given under the string 
+"******* SEE RESULT BELOW ***********".  
+
+In this example, the result is "true", which means the program always
+terminate.
+
+Note that predicates used for checking this property is empty. By
+default, YASM starts abstraction with empty set of predicates. Since
+YASM already gets conclusive result in the first iteration, there is
+no need to find new predicates for refinement.
+
+*** Now suppose you want to check if the ERROR statement in the
+program can be reached. You can run YASM with
+
+yasm -p 'EF pc = ERROR' test.c 2>/dev/null
+
+
+The output should look like
+
+////////////////////////////////////////////////////
+
+bash-2.05a$ yasm -p 'EF pc=END'  test.c 2>/dev/null
+ms: 64m, mx: 64m
+Compiling C program: test.c
+
+
+***** Model-Checking ***** 
+Check EU: iteration: 1
+Check EU: iteration: 2
+Check EU: iteration: 3
+Check EU: iteration: 4
+Check EU: iteration: 5
+Check EU: iteration: 6
+Done in: 0.01s
+
+******* SEE RESULT BELOW ***********
+The property is: maybe
+********** LOOK UP  ^ **********
+Predicates used: 
+[]
+**************** Adding predicate due to unknown If condition****************
+(main::y > 5)
+
+
+Stats so far
+************************************
+STATISTICS
+Overall time: 0.852s
+Parsing time: 0.222s
+Refine time: 0.022s
+Model compilation: 0.137s
+Model-Checking time: 0.01s
+New predicates time: 0.073s
+PredicateAbstraction time: null
+
+Compiling C program: test.c
+Old predicates: []
+New predicates: [(main::y > 5)]
+
+
+***** Model-Checking ***** 
+Check EU: iteration: 1
+Check EU: iteration: 2
+Check EU: iteration: 3
+Check EU: iteration: 4
+Check EU: iteration: 5
+Check EU: iteration: 6
+Done in: 0.0050s
+
+******* SEE RESULT BELOW ***********
+The property is: maybe
+********** LOOK UP  ^ **********
+Predicates used: 
+[(main::y > 5)]
+	**********ATTENTION**************
+	New Predicates is:
+	((main::y - 1) > 5)
+
+
+Stats so far
+************************************
+STATISTICS
+Overall time: 0.994s
+Parsing time: 0.222s
+Refine time: 0.06s
+Model compilation: 0.14s
+Model-Checking time: 0.015s
+New predicates time: 0.129s
+PredicateAbstraction time: 0.0080s
+
+Compiling C program: test.c
+Old predicates: [(main::y > 5)]
+New predicates: [((main::y - 1) > 5)]
+
+
+***** Model-Checking ***** 
+Check EU: iteration: 1
+Check EU: iteration: 2
+Check EU: iteration: 3
+Check EU: iteration: 4
+Check EU: iteration: 5
+Done in: 0.0050s
+
+******* SEE RESULT BELOW ***********
+The property is: true
+********** LOOK UP  ^ **********
+Predicates used: 
+[(main::y > 5), ((main::y - 1) > 5)]
+we are done
+Done in 1.385s
+************************************
+STATISTICS
+Overall time: 1.135s
+Parsing time: 0.222s
+Refine time: 0.139s
+Model compilation: 0.141s
+Model-Checking time: 0.02s
+New predicates time: 0.129s
+PredicateAbstraction time: 0.051s
+
+QUERY: 0.047s
+Predicates used: 
+[(main::y > 5), ((main::y - 1) > 5)]
+
+
+////////////////////////////////////////////////////
+
+In this output, you can find three appearances of the string 
+"******* SEE RESULT BELOW ***********", this is because YASM 
+conducted three iterations before getting the conclusive answer - "true".
+
+In the first iteration, YASM abstracts the program with empty set of
+predicates, and produces the inconclusive answer - "maybe". In the
+second iteration, a new predicate "(main::y > 5)" is added (due to the
+condition "if (y>5)") to refine the abstract program, and the answer
+is still "maybe". Then, in the third iteration, another predicate
+"((main::y - 1) > 5)" is added (for approximating the statement "y =
+y-1)"), and this time, YASM have enough information to produce the
+conclusive answer "true".
+
+
+*** As mentioned before, by default, YASM starts abstracting program
+using empty set of predicates. You can change this by specifying
+predicates used for the initial abstraction. To do this, you need put
+the predicates in a file and use the option 
+"--init-pred <init-predicate-file>".
+
+For example, you can write a file "test.c.pred" which contains the
+following two lines
+
+main::y > 5; 
+(main::y - 1) > 5;
+
+
+Now you can check the 'EF pc = ERROR' property again using the
+predicates in "test.c.pred" as the initial predicates.
+
+To do this, type
+
+yasm -p 'EF pc=ERROR' --init-pred   test.c.pred   test.c 2>/dev/null
+
+The output will look like
+
+////////////////////////////////////////////////////
+
+bash-2.05a$ yasm -p 'EF pc=ERROR'  --init-pred test.c.pred test.c 2>/dev/null
+ms: 64m, mx: 64m
+Compiling C program: test.c
+
+
+***** Model-Checking ***** 
+Check EU: iteration: 1
+Check EU: iteration: 2
+Check EU: iteration: 3
+Check EU: iteration: 4
+Check EU: iteration: 5
+Check EU: iteration: 6
+Done in: 0.0050s
+
+******* SEE RESULT BELOW ***********
+The property is: true
+********** LOOK UP  ^ **********
+Predicates used: 
+[(main::y > 5), ((main::y - 1) > 5)]
+we are done
+Done in 1.662s
+************************************
+STATISTICS
+Overall time: 1.277s
+Parsing time: 0.272s
+Refine time: 0.155s
+Model compilation: 0.133s
+Model-Checking time: 0.0050s
+New predicates time: null
+PredicateAbstraction time: 0.048s
+
+QUERY: 0.039s
+Predicates used: 
+[(main::y > 5), ((main::y - 1) > 5)]
+
+////////////////////////////////////////////////////
+
+YASM now gets the conclusive answer in the first iteration.
+
+
+* Common options
+
+** The default refiner type is "cbj" which preforms precondition
+approximation for each transition of the program.  Alternatively, you
+can try other refiners by using "--refiner <refiner-type>" option. For
+example, you can try the type of "cbj-i-s" which also does
+approximation for each transition, but doing so in a "cheap" way,
+i.e., for each precondition, it only check if it is syntactic
+equivalent to an existing predicate. 
+
+** --blocking will treat a sequence of statements as a single basic
+     block. 
+
+** --reuse will cause Yasm to reuse results of previous computation
+     during the abstraction-refinement cycle. Currently, this works
+     for 'EF' properties only.
+
+
+* Other useful things
+
+** 'ant yasm.test' will run JUnit tests, they should all succeed
+
+** there is a collection of simple programs in PATH2YASM/play/models/cprog
+
+** our C parser supports a very simple fragment of C (CIL). A tool to
+   convert C programs to CIL is available at http://cil.sourceforge.net/
+
+** Yasm does support arbitrary CTL formulas, but has only been
+   optimized for 'EF'. With other formulas, your millage may vary.
+
+
+** For full help information of YASM, type 
+
+yasm -help
+
+
+
+Have fun!

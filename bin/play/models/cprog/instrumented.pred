@@ -1,0 +1,4 @@
+lockStatus == 0;
+lockStatus == 1;
+nPackets == nPacketsOld;
+1 == 1;

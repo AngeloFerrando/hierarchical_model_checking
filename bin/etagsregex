@@ -1,0 +1,2 @@
+/[ \t].*static \(class\|interface\)[ ]+\([^ \t]+\).*/\2/
+/\s-*public\s-*interface\s-*\([^\s-]*\)/\1/

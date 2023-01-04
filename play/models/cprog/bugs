@@ -1,0 +1,16 @@
+bug1:
+
+The property (AF pc = ERROR3) in instrumented.c works with niether of the refiners (new and csp1).
+
+Well, it shouldn't work!
+
+bug2: 
+
+On tests: test9.c, test19.c, the model checker should terminate. 
+
+OK!
+
+bug3:
+
+EF pc = END on blast/tut6.c does not return true! I guess the reason is that
+we don;t abstract the conditions in while and if-stmts appropriately.

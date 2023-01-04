@@ -1,0 +1,12 @@
+bool a = true; 
+bool b;
+
+if (a) goto l1 else goto l2 fi
+
+l1: b := H(true, false), a := H(a, !a)
+goto l3
+
+l2: b := H(false, true), a := H(a, !a)
+goto l3
+
+l3: goto l3

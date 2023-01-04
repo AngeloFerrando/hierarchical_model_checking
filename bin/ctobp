@@ -1,0 +1,23 @@
+#!/bin/sh
+
+###
+### Converts C programs to boolean programs
+###
+
+INPUT=$1
+BP_OUTPUT=$2
+CIL_OUTPUT=`basename $1 c`cil.c
+
+if [ -z "$BP_OUTPUT" ] ; then
+    BP_OUTPUT=`basename $1 c`bp
+fi
+
+RUN_CILLY=${RUN_CILLY:-"no"}
+
+if [ "$RUN_CILLY" == "yes" ] ; then
+    cilly --domakeCFG --out=$CIL_OUTPUT $INPUT
+else
+    CIL_OUTPUT=$INPUT
+fi
+
+java edu.toronto.cs.boolpg.abstraction.Main $CIL_OUTPUT $BP_OUTPUT

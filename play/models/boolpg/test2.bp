@@ -1,0 +1,4 @@
+bool a = true; 
+
+label: a := H(a, !a)
+goto label

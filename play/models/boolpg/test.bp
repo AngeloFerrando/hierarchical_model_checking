@@ -1,0 +1,18 @@
+bool b0;
+bool b1;
+b0 := H (true,false),
+b1 := H (false,true)
+if (b0) goto l1 else goto l2 fi
+l1:
+b0 := H (((b0 & ! b1) | (b0 & b1)),false),
+b1 := H (((! b0 & b1) | (b0 & b1)),((! b0 & ! b1) | (b0 & ! b1)))
+goto l3
+l2:
+b0 := H (((b0 & ! b1) | (b0 & b1)),false),
+b1 := H (false,((! b0 & b1) | (b0 & b1)))
+
+l3:
+b0 := H (((b0 & ! b1) | (b0 & b1)),((! b0 & ! b1) | (! b0 & b1))),
+b1 := H (false,((! b0 & b1) | (b0 & b1)))
+_end:
+goto _end

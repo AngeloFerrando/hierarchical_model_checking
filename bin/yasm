@@ -1,0 +1,56 @@
+#!/bin/bash
+
+####
+#### A script to run yasm
+####
+
+##
+## read global and user configuration files if they exist
+##
+if [ -f /etc/yasm.conf ] ; then
+    . /etc/yasm.conf
+fi
+
+if [ -f $HOME/.yasmrc ] ; then
+    . $HOME/.yasmrc
+fi
+
+###
+### find yasm root directory
+###
+
+PRG="$0"
+YASM_ROOT=`dirname $PRG`/..
+
+CURRENT_DIR=`pwd`
+###
+### go to the root directory
+###
+#cd $YASM_ROOT
+
+###
+### setup environment variables
+###
+if [ -z "$ROOT" ] ; then
+ source $YASM_ROOT/bin/env.sh $YASM_ROOT > /dev/null
+fi
+
+###
+### now we are ready to run
+###
+if [ "$DEBUG" == "no" ] ; then
+    unset ASSERT
+else
+    ASSERT=-ea
+fi
+MEMORY_MIN=${MEMORY_MIN:-64m}
+MEMORY_MAX=${MEMORY_MAX:-64m}
+
+echo "ms: $MEMORY_MIN, mx: $MEMORY_MAX"
+
+java $ASSERT -Xms$MEMORY_MIN -Xmx$MEMORY_MAX -Duser.dir="$CURRENT_DIR" $JAVA_OPT edu.toronto.cs.yasm.YasmApp "$@"
+
+###
+### return to parent directory
+###
+cd $CURRENT_DIR

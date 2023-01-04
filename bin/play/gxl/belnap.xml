@@ -1,0 +1,51 @@
+<!-- belnap's logic -->
+
+<gxl>
+ <graph ID='belnap' edgemode='directed'>
+   <!-- logic values -->
+   <node ID='0'>
+
+   </node>
+   <node ID='1'>
+
+   </node>
+   <node ID='2'>
+
+   </node>
+   <node ID='3'>
+
+   </node>
+
+   <!-- logic order -->
+   <edge from='1' to='0'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='2' to='0'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='3' to='1'>
+    <type value='above'/>
+   </edge>
+
+   <edge from='3' to='2'>
+    <type value='above'/>
+   </edge>
+
+ 
+   <!-- negation order -->
+   <edge from='0' to='3'>
+     <type value='neg'/>
+   </edge>
+   <edge from='1' to='2'>
+     <type value='neg'/>
+   </edge>
+   <edge from='2' to='1'>
+     <type value='neg'/>
+   </edge>
+   <edge from='3' to='0'>
+     <type value='neg'/>
+   </edge>
+ </graph>
+</gxl>
