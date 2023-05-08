@@ -8,11 +8,11 @@ A Practical Approach to Verify Hierarchical Systems.
 ```bash
 ant -f build.xml
 ```
-This should compile and install our extended version of YASM on your machine.
+This should compile and install the hierarchical version of YASM on your machine.
 
 ## How to run
 
-To run YASM just type the following in the terminal
+To run the extended version of YASM with the hierarchical model checking feature type the following in the terminal
 
 ```bash
 ./bin/yasm -p '<CTL-property>' <C-program>
@@ -20,7 +20,7 @@ To run YASM just type the following in the terminal
 
 ## How to run benchmarks
 
-To run the extended version of YASM with the hierarchical model checking feature type the following in the terminal
+To run the benchmarks type the following in the terminal
 
 ```bash
 python experiments.py <repetitions> <min> <max> <step>
