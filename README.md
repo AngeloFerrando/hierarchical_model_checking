@@ -39,3 +39,4 @@ python experiments.py 5 5 50 5
 ```
 
 It runs the benchmarks 5 times for each verification step, considering files containing function calls from 5 to 50, with a step of 5.
+After executing such a command, a CSV file containing the results of the experiments is produced.
