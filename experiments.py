@@ -11,7 +11,7 @@ def main(args):
     # kind = int(args[5])
 
     with open('./res.csv', 'w') as f:
-        f.write('')
+        f.write('Number of function calls; Different [ms]; Same [ms]; Nested [ms]\n')
     for i in range(min, max, step):
         elapsed_time = [0, 0, 0]
         for kind in range(0, 3):

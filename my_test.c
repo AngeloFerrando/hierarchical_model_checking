@@ -93,6 +93,51 @@ int f8(int n){
 }
 int f9(int n){
     int x=0;
+    f10(10);
+
+	if(x < n){
+		x++;
+	}
+	return 0;
+}
+int f10(int n){
+    int x=0;
+    f11(10);
+
+	if(x < n){
+		x++;
+	}
+	return 0;
+}
+int f11(int n){
+    int x=0;
+    f12(10);
+
+	if(x < n){
+		x++;
+	}
+	return 0;
+}
+int f12(int n){
+    int x=0;
+    f13(10);
+
+	if(x < n){
+		x++;
+	}
+	return 0;
+}
+int f13(int n){
+    int x=0;
+    f14(10);
+
+	if(x < n){
+		x++;
+	}
+	return 0;
+}
+int f14(int n){
+    int x=0;
     f0(10);
 
 	if(x < n){
