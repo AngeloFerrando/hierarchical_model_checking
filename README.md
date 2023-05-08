@@ -15,7 +15,7 @@ This should compile and install our extended version of YASM on your machine.
 To run YASM just type the following in the terminal
 
 ```bash
-yasm -p '<CTL-property>' <C-program>
+./bin/yasm -p '<CTL-property>' <C-program>
 ```
 
 ## How to run benchmarks
