@@ -4,7 +4,11 @@ A Practical Approach to Verify Hierarchical Systems.
 
 ## How to install
 
-- YASM: http://www.cs.toronto.edu/~arie/yasm/QuickStartYasm.txt
+- Open the terminal and Run 
+```bash
+ant -f build.xml
+```
+This should compile and install our extended version of YASM on your machine.
 
 ## How to run
 
