@@ -71,7 +71,7 @@ def main(args):
                 with open('./my_test.c', 'w') as f:
                     f.write(code)
                 start = datetime.datetime.now()
-                stream = os.popen('yasm -p \'EF pc=END\' ./my_test.c')
+                stream = os.popen('./bin/yasm -p \'EF pc=END\' ./my_test.c')
                 output = stream.read()
                 end = datetime.datetime.now()
                 elapsed_time[kind] = elapsed_time[kind] + ((end-start).microseconds/1000)
